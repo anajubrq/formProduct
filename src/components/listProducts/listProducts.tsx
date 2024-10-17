@@ -24,22 +24,22 @@ export interface IProduct {
 
 export interface IListProducts {
   product: IProduct[];
-  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
-  onUpdateProduct: (updatedProduct: IProduct) => void;
+  setProducts: React.Dispatch<React.SetStateAction<NewProduct[]>>;
   deletePost: (id: string) => void;
 }
 
 export default function ListProducts({ product, setProducts, deletePost }: IListProducts) {
+  const [productEdit, setProductEdit] = useState<NewProduct | undefined>(undefined);
+  const [openDelete, setOpenDelete] = useState<string | null>(null); 
+
   const onUpdateProduct = (updatedProduct: IProduct) => {
-    setProducts((prevProducts: IProduct[]) =>
-      prevProducts.map((p) =>
-        p.id === updatedProduct.id ? updatedProduct : p
+    setProducts((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === updatedProduct.id ? updatedProduct : product
       )
     );
   };
 
-  const [productEdit, setProductEdit] = useState<NewProduct | undefined>(undefined);
-  const [openDelete, setOpenDelete] = useState<string | null>(null); 
 
   return (
     <Table>

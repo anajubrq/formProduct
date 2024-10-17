@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,7 +26,7 @@ export interface FormProductProps {
     isOpen: boolean,
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>; 
     onAddProduct: (product: NewProduct) => void;
-    product: IProduct,
+    product: NewProduct,
 }
 
 const newProductSchema = z.object({
@@ -47,16 +46,10 @@ export default function EditFormProduct({ isOpen, setModalOpen, onAddProduct, pr
 
   const { handleSubmit, formState: { errors, isSubmitting }, reset } = form;
 
-  const generateRandomId = () => {
-    return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
-  };
-
-
   const onSubmit: SubmitHandler<NewProduct> = (data) => {
-    console.log(data)
-    const productAdptado = {...data, id: generateRandomId()}
-    onAddProduct(productAdptado)
+    onAddProduct(data)
     setModalOpen(false)
+    console.log(data, "Usuário atualizado");
     reset();
   };
 
