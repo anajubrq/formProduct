@@ -32,7 +32,7 @@ export interface FormProductProps {
 
 const newProductSchema = z.object({
   id: z.string().optional(),
-  name: z.string() .min(1, { message: 'The name field needs to be filled in' }) .regex(/^[A-Za-z\s]+$/, { message: "The name must contain only letters" }),
+  name: z.string() .min(1, { message: 'The name field needs to be filled in' }),
   description: z.string().min(1, { message: "The description needs to be filled in" }).regex(/^[A-Za-z\s]+$/, { message: "The description must contain only letters" }),
   price: z.coerce.number() .min(0, { message: "The price must be 0 or greater" }),
   amount: z.coerce.number()  .min(0, { message: "The amount must be 0 or greater" })
