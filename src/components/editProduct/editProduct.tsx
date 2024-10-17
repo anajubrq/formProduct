@@ -25,29 +25,31 @@ export interface IProduct {
 export interface FormProductProps {
     isOpen: boolean,
     setModalOpen: React.Dispatch<React.SetStateAction<boolean>>; 
-    onAddProduct: (product: NewProduct) => void;
+    onEditProduct: (product: NewProduct) => void;
     product: NewProduct,
 }
 
 const newProductSchema = z.object({
-    name: z.string().min(1, { message: 'The name field needs to be filled in' }),
-    description: z.string().min(1, { message: "The description needs to be filled in" }),
-    price: z.coerce.number().min(1, { message: "The price must be 0 or greater" }),
-    amount: z.coerce.number().min(1, { message: "The amount must be 0 or greater" })
-  });
-  
+  id: z.string().optional(),
+  name: z.string() .min(1, { message: 'The name field needs to be filled in' }) .regex(/^[A-Za-z\s]+$/, { message: "The name must contain only letters" }),
+  description: z.string().min(1, { message: "The description needs to be filled in" }).regex(/^[A-Za-z\s]+$/, { message: "The description must contain only letters" }),
+  price: z.coerce.number() .min(0, { message: "The price must be 0 or greater" }),
+  amount: z.coerce.number()  .min(0, { message: "The amount must be 0 or greater" })
+});
+
 export type NewProduct = z.infer<typeof newProductSchema>;
 
-export default function EditFormProduct({ isOpen, setModalOpen, onAddProduct, product }: FormProductProps) {
+export default function EditFormProduct({ isOpen, setModalOpen, onEditProduct, product }: FormProductProps) {
   const form = useForm<NewProduct>({
     resolver: zodResolver(newProductSchema),
     defaultValues: product,
+  
   });
 
   const { handleSubmit, formState: { errors, isSubmitting }, reset } = form;
 
   const onSubmit: SubmitHandler<NewProduct> = (data) => {
-    onAddProduct(data)
+    onEditProduct({...product, ...data})
     setModalOpen(false)
     console.log(data, "Usuário atualizado");
     reset();

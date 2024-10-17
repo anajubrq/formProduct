@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Table,
   TableBody,
@@ -13,7 +12,7 @@ import EditFormProduct from "../editProduct/editProduct";
 import { NewProduct } from "../formProduct/formProduct";
 import { useState } from "react";
 import { ModalDelete } from "../deletProduct/deletProduct";
-
+import { useEffect } from "react";
 export interface IProduct {
   id?: string;
   name: string;
@@ -24,7 +23,7 @@ export interface IProduct {
 
 export interface IListProducts {
   product: IProduct[];
-  setProducts: React.Dispatch<React.SetStateAction<NewProduct[]>>;
+  setProducts: React.Dispatch<React.SetStateAction<IProduct[]>>;
   deletePost: (id: string) => void;
 }
 
@@ -38,12 +37,16 @@ export default function ListProducts({ product, setProducts, deletePost }: IList
         product.id === updatedProduct.id ? updatedProduct : product
       )
     );
+
   };
 
+  useEffect(() => {
+    console.log(product, "console de product");
+  }, [product]);
 
   return (
     <Table>
-      <TableCaption>Lista de produtos cadastrados</TableCaption>
+      <TableCaption>List of registered products</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
@@ -54,28 +57,29 @@ export default function ListProducts({ product, setProducts, deletePost }: IList
         </TableRow>
       </TableHeader>
       <TableBody>
-        {product.map((singleProduct, index) => (
-          <TableRow key={singleProduct.id || index}>
+        {product.map((singleProduct) => (
+          <TableRow key={singleProduct.id }>
             <TableCell className="font-medium">{singleProduct.name}</TableCell>
             <TableCell>{singleProduct.description}</TableCell>
             <TableCell>{singleProduct.price}</TableCell>
             <TableCell>{singleProduct.amount}</TableCell>
 
-            <TableCell>
+            <TableCell className=" flex justify-start items-center">
              
               <button onClick={() => setProductEdit(singleProduct)}>
                 <img src="/images/edit.png" className="w-[25px]" alt="Edit" />
               </button>
               {productEdit && (
-                <EditFormProduct
-                  isOpen={!!productEdit}
-                  setModalOpen={() => setProductEdit(undefined)}
-                  onAddProduct={(product) => {
-                    onUpdateProduct(product);
-                    setProductEdit(undefined);
-                  }}
-                  product={productEdit}
-                />
+               <EditFormProduct
+               isOpen={!!productEdit}
+               setModalOpen={() => setProductEdit(undefined)}
+               onEditProduct={(updatedProduct) => {
+                 onUpdateProduct(updatedProduct);
+                 setProductEdit(undefined);
+               }}
+               product={productEdit}
+             />
+             
               )}
 
               
@@ -102,3 +106,4 @@ export default function ListProducts({ product, setProducts, deletePost }: IList
     </Table>
   );
 }
+

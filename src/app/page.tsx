@@ -14,6 +14,11 @@ export default function Home() {
     setOpenModal(false);
   };
 
+  const editProduct = (newProduct: NewProduct) => {
+    setProducts((prevProducts) => [...prevProducts, newProduct]);
+    setOpenModal(false);
+  };
+
   const handleOpenModal = () => {
     setOpenModal(true);
   };
@@ -34,6 +39,7 @@ export default function Home() {
       />
 
       <FormProduct 
+      onEditProduct={editProduct}
       isOpen={openModal} 
       setModalOpen={setOpenModal}
        onAddProduct={addProduct} 
