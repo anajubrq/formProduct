@@ -68,7 +68,7 @@ export default function EditFormProduct({ isOpen, setModalOpen, onEditProduct, p
       <div className="flex justify-center items-center w-full h-screen">
         <Card className="w-[350px]">
           <CardHeader>
-            <CardTitle className="text-[22px]">Add a product</CardTitle>
+            <CardTitle className="text-[22px]">Edit product</CardTitle>
             <CardDescription>Fill in the following information:</CardDescription>
           </CardHeader>
           <CardContent>
